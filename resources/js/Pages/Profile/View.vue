@@ -12,6 +12,7 @@ import PostList from "@/Components/app/PostList.vue";
 import CreatePost from "@/Components/app/CreatePost.vue";
 import UserListItem from "@/Components/app/UserListItem.vue";
 import TextInput from "@/Components/TextInput.vue";
+import TabPhotos from "@/Pages/Profile/TabPhotos.vue";
 
 const imagesForm = useForm({
     cover: null,
@@ -50,6 +51,7 @@ const props = defineProps({
     posts: Object,
     followers: Array,
     followings: Array,
+    photos: Array,
 });
 
 
@@ -118,6 +120,8 @@ function followUser() {
         preserveScroll: true,
     })
 }
+
+
 </script>
 
 <template>
@@ -294,7 +298,7 @@ function followUser() {
                             </div>
                         </TabPanel>
                         <TabPanel class="bg-white p-3 shadow">
-                            Photos
+                            <TabPhotos :photos="photos"/>
                         </TabPanel>
                         <TabPanel v-if="isMyProfile">
                             <Edit :must-verify-email="mustVerifyEmail" :status="status"/>
