@@ -8,6 +8,10 @@ import {computed, ref} from "vue";
 import {CameraIcon, CheckCircleIcon, XMarkIcon} from '@heroicons/vue/24/solid'
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import DangerButton from "@/Components/DangerButton.vue";
+import PostList from "@/Components/app/PostList.vue";
+import CreatePost from "@/Components/app/CreatePost.vue";
+import UserListItem from "@/Components/app/UserListItem.vue";
+import TextInput from "@/Components/TextInput.vue";
 
 const imagesForm = useForm({
     cover: null,
@@ -18,6 +22,9 @@ const showNotification = ref(true);
 
 const coverImageSrc = ref('')
 const avatarImageSrc = ref('')
+
+const searchFollowersKeyword = ref('')
+const searchFollowingsKeyword = ref('')
 
 const authUser = usePage().props.auth.user;
 
@@ -39,7 +46,10 @@ const props = defineProps({
         type: Object
     },
     isCurrentUserFollower: Boolean,
-    followerCount: Number
+    followerCount: Number,
+    posts: Object,
+    followers: Array,
+    followings: Array,
 });
 
 
@@ -125,8 +135,6 @@ function followUser() {
             >
                 {{ errors.cover }}
             </div>
-
-
             <div class="group relative bg-white ">
                 <img :src="coverImageSrc || user.cover_url || '/img/default_cover.jpg'"
                      class="w-full h-[200px] object-cover">
@@ -141,9 +149,10 @@ function followUser() {
                                 d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z"
                                 stroke-linecap="round"
                                 stroke-linejoin="round"/>
-                            <path d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"/>
+                            <path
+                                d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"/>
                         </svg>
                         Update cover image
                         <input class="absolute left-0 top-0 bottom-0 right-0 opacity-0 cursor-pointer" type="file"
@@ -208,7 +217,7 @@ function followUser() {
                             <h2 class="font-bold text-lg">{{ user.name }}</h2>
                             <p class="text-xs text-gray-500">{{ followerCount }} followers </p>
                         </div>
-                        <div>
+                        <div v-if="authUser.id != user.id">
                             <PrimaryButton v-if="!isCurrentUserFollower" @click="followUser">
                                 Follow User
                             </PrimaryButton>
@@ -220,7 +229,8 @@ function followUser() {
                 </div>
 
             </div>
-            <div class="border-t">
+
+            <div class="border-t ">
                 <TabGroup>
                     <TabList class="  flex bg-white ">
 
@@ -242,14 +252,46 @@ function followUser() {
                     </TabList>
 
                     <TabPanels class="mt-2">
-                        <TabPanel class="bg-white p-3 shadow">
-                            Posts
+                        <TabPanel class="">
+                            <template v-if="posts">
+                                <CreatePost/>
+                                <PostList :posts="posts.data" class="flex-1"/>
+                            </template>
+                            <div v-else class="py-8 text-center text-white">
+                                You dont have permission to view these posts
+                            </div>
                         </TabPanel>
                         <TabPanel class="bg-white p-3 shadow">
-                            Followers
+                            <div class="mb-3">
+                                <TextInput :model-value="searchFollowersKeyword"
+                                           class="w-full" placeholder="Type To search "/>
+                            </div>
+                            <div v-if="followers.length" class="grid grid-cols-2 gap-3">
+
+                                <UserListItem v-for="user of followers"
+                                              :key="user.id"
+                                              :user="user"
+                                              class="shadow rounded-lg"/>
+                            </div>
+                            <div v-else class="text-center py-8 text-white">
+                                User does not have followers
+                            </div>
                         </TabPanel>
                         <TabPanel class="bg-white p-3 shadow">
-                            Followings
+                            <div class="mb-3">
+                                <TextInput :model-value="searchFollowingsKeyword"
+                                           class="w-full" placeholder="Type To search "/>
+                            </div>
+                            <div v-if="followings.length" class="grid grid-cols-2 gap-3">
+
+                                <UserListItem v-for="user of followings"
+                                              :key="user.id"
+                                              :user="user"
+                                              class="shadow rounded-lg"/>
+                            </div>
+                            <div v-else class="text-center py-8 text-white">
+                                The user is not following to anybody
+                            </div>
                         </TabPanel>
                         <TabPanel class="bg-white p-3 shadow">
                             Photos
