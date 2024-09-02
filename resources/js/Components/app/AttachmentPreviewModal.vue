@@ -2,7 +2,7 @@
 import {computed} from 'vue'
 import {Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot,} from '@headlessui/vue'
 import {ChevronLeftIcon, ChevronRightIcon, XMarkIcon} from '@heroicons/vue/24/solid'
-import {isImage} from "@/helpers.js";
+import {isImage, isVideo} from "@/helpers.js";
 import {PaperClipIcon} from "@heroicons/vue/20/solid/index.js";
 
 
@@ -112,6 +112,9 @@ function next() {
                                     <div class="flex items-center justify-center w-full h-full p-3">
                                         <img v-if="isImage(attachment)" :src="attachment.url"
                                              class=" max-w-full max-h-full">
+                                        <video v-else-if="isVideo(attachment)" :src="attachment.url"
+                                               autoplay class=" max-w-full max-h-full"
+                                               controls></video>
                                         <div v-else class="p-32 flex flex-col justify-center
                                             items-center text-gray-100">
                                             <PaperClipIcon class="w-10 h-10 mb-3"/>
