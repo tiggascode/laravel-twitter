@@ -44,7 +44,10 @@ function openPhoto(index) {
             </div>
         </template>
     </div>
-
+    <div v-if="!photos.length" class="p-8 text-center text-gray-600">
+        There are no photos
+    </div>
+    
     <AttachmentPreviewModal v-model="showModal"
                             v-model:index="currentPhotoIndex"
                             :attachments="photos || []"/>

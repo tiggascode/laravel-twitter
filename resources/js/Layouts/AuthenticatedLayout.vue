@@ -4,12 +4,17 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import {Link, usePage} from '@inertiajs/vue3';
+import {Link, router, usePage} from '@inertiajs/vue3';
+import TextInput from "@/Components/TextInput.vue";
 
 const showingNavigationDropdown = ref(false);
+const keywords = ref(usePage().props.search)
 
 const authUser = usePage().props.auth.user;
 
+function search() {
+    router.get(route('search', encodeURIComponent(keywords.value)))
+}
 </script>
 
 <template>
@@ -17,7 +22,7 @@ const authUser = usePage().props.auth.user;
         <nav class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
             <!-- Primary Navigation Menu -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between h-16">
+                <div class="flex justify-between h-16 gap-4 items-center">
                     <div class="flex">
                         <!-- Logo -->
                         <div class="shrink-0 flex items-center">
@@ -31,7 +36,12 @@ const authUser = usePage().props.auth.user;
 
                     </div>
 
-                    <div class="hidden sm:flex sm:items-center sm:ms-6">
+                    <div class="flex-1 ">
+                        <TextInput v-model="keywords" class="w-full" placeholder="Search on the website"
+                                   @keyup.enter="search"/>
+                    </div>
+
+                    <div class="hidden sm:flex sm:items-center ">
                         <!-- Settings Dropdown -->
                         <div class="ms-3 relative">
                             <Dropdown v-if="authUser" align="right" width="48">

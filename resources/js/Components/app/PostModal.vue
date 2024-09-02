@@ -7,6 +7,7 @@ import {useForm, usePage} from "@inertiajs/vue3";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import {isImage} from "@/helpers.js";
 
+
 const editor = ClassicEditor;
 const editorConfig = {
     toolbar: ['heading', '|', 'bold', 'italic', '|', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|',
@@ -175,6 +176,21 @@ function undoDelete(myFile) {
     myFile.deleted = false
     form.deleted_file_ids = form.deleted_file_ids.filter(id => myFile.id !== id)
 }
+
+// function getAiContent() {
+//     if (!form.body) {
+//         return;
+//     }
+//     instance.post(route('post.aiContent'), {
+//         prompt: form.body
+//     })
+//         .then(({data}) => {
+//             form.body = data.content
+//         })
+//         .catch(err => {
+//             console.log(err)
+//         })
+// }
 </script>
 
 
@@ -243,6 +259,8 @@ function undoDelete(myFile) {
                                             bg-amber-100 mt-3 text-gray-800">
                                         {{ formErrors }}
                                     </div>
+
+                                    <!--                                    <button @click="getAiContent">Ai Post</button>-->
 
                                     <div :class="[
                                             computedAttachments.length === 1 ? 'grid-cols-1 ' : 'grid-cols-2'

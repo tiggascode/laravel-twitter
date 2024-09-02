@@ -106,6 +106,10 @@ ck-content-output > *:last-child {
     color: #4b9afa;
 }
 
+.ck-content-output a.hashtag {
+    background-color: #eaf4ff;
+    color: #4156e2
+}
 
 .comment-list::-webkit-scrollbar {
     width: 8px;
