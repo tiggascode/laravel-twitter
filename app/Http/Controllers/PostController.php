@@ -19,6 +19,7 @@ use App\Notifications\PostCreated;
 use App\Notifications\PostDeleted;
 use App\Notifications\ReactionAddedOnComment;
 use App\Notifications\ReactionAddedOnPost;
+use DOMDocument;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -305,4 +306,35 @@ class PostController extends Controller
 //
 //        return response(['content' => $result->choices[0]->message->content]);
 //    }
+    public function fetchUrlPreview(Request $request)
+    {
+        $data = $request->validate([
+            'url' => 'url'
+        ]);
+
+        $url = $data['url'];
+
+        $html = file_get_contents($url);
+
+        $dom = new DOMDocument();
+
+        libxml_use_internal_errors(true);
+
+        $dom->loadHTML($html);
+
+        libxml_use_internal_errors(false);
+
+        $ogTags = [];
+        $metaTags = $dom->getElementsByTagName('meta');
+        foreach ($metaTags as $tag) {
+            $property = $tag->getAttribute('property');
+            if (str_starts_with($property, 'og:')) {
+                $ogTags[$property] = $tag->getAttribute('content');
+            }
+        }
+
+        return $ogTags;
+    }
+
 }
+

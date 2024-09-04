@@ -6,10 +6,15 @@ import {ArrowUturnLeftIcon, BookmarkIcon, PaperClipIcon, XMarkIcon} from '@heroi
 import {useForm, usePage} from "@inertiajs/vue3";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import {isImage} from "@/helpers.js";
+import instance from "@/axiosClient.js";
+import UrlPreview from "@/Components/app/UrlPreview.vue";
 
 
 const editor = ClassicEditor;
 const editorConfig = {
+    mediaEmbed: {
+        removeProviders: ['dailymotion', 'spotify', 'youtube', 'vimeo', 'instagram', 'twitter', 'googleMaps', 'flickr', 'facebook', 'twitter']
+    },
     toolbar: ['heading', '|', 'bold', 'italic', '|', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|',
         'blockQuote'],
 }
@@ -40,11 +45,15 @@ const attachmentFiles = ref([])
 const attachemntErrors = ref([])
 const formErrors = ref({})
 
+
+let previewUrl = ref(null)
 const form = useForm({
     body: '',
     attachments: [],
     group_id: null,
     deleted_file_ids: [],
+    preview: {},
+    preview_url: null,
     _method: 'POST'
 })
 
@@ -74,7 +83,7 @@ const emit = defineEmits(['update:modelValue', 'hide'])
 
 watch(() => props.post, () => {
     form.body = props.post.body || ''
-
+    onInputChange()
 })
 
 function resetModal() {
@@ -191,6 +200,63 @@ function undoDelete(myFile) {
 //             console.log(err)
 //         })
 // }
+
+function fetchPreview(url) {
+    if (url === form.preview_url) {
+        return;
+    }
+
+
+    form.preview_url = url
+    form.preview = {}
+    if (url) {
+        instance.post(route('post.fetchUrlPreview'), {url})
+            .then(({data}) => {
+                form.preview = {
+                    title: data['og:title'],
+                    description: data['og:description'],
+                    image: data['og:image'],
+
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+}
+
+function onInputChange() {
+    let url = matchHref()
+    console.log(url)
+
+    if (!url) {
+        url = matchLink()
+    }
+    fetchPreview(url)
+
+}
+
+function matchHref() {
+    const urlRegex = /<a.*href="((https?):\/\/[^"]+)"/
+
+    const match = form.body.match(urlRegex)
+
+    if (match && match.length > 0) {
+        return match[1]
+    }
+    return null
+}
+
+function matchLink() {
+    const urlRegex = /(?:https):\/\/^\s<]+/
+
+    const match = form.body.match(urlRegex)
+
+    if (match && match.length > 0) {
+        return match[0]
+    }
+}
+
 </script>
 
 
@@ -246,8 +312,11 @@ function undoDelete(myFile) {
                                         {{ formErrors.group_id }}
                                     </div>
 
-                                    <ckeditor v-model="form.body" :config="editorConfig" :editor="editor"></ckeditor>
+                                    <ckeditor v-model="form.body" :config="editorConfig"
+                                              :editor="editor"
+                                              @input="onInputChange"></ckeditor>
 
+                                    <UrlPreview :preview="form.preview" :url="form.preview_url"/>
                                     <div v-if="showExtensionsText" class="border-l-4 border-amber-500 py-2 px-3
                                             bg-amber-100 mt-3 text-gray-800">
                                         Files must be one of the following extensions <br>

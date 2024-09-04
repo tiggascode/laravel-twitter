@@ -9,6 +9,7 @@ import EditDeleteDropdown from "@/Components/app/EditDeleteDropdown.vue";
 import PostAttachment from "@/Components/app/PostAttachment.vue";
 import CommentList from "@/Components/app/CommentList.vue";
 import {computed} from "vue";
+import UrlPreview from "@/Components/app/UrlPreview.vue";
 
 const props = defineProps({
     post: Object
@@ -18,13 +19,16 @@ const props = defineProps({
 
 const emit = defineEmits(['editClick', 'attachmentClick'])
 
-const postBody = computed(() => props.post.body.replace(
-    /(#\w+)(?![^>]*<\/a>)/g,
-    (match, group) => {
-        const encodedGroup = encodeURIComponent(group)
-        return `<a href="/search/${encodedGroup}" class="hashtag">${group}</a>`
-    })
-)
+const postBody = computed(() => {
+    let content = props.post.body.replace(
+        /(?:(\s+)|<p>)((#\w+)(?![^>]*<\/a>))/g,
+        (match, group1, group2) => {
+            const encodedGroup = encodeURIComponent(group2)
+            return `${group1 || ''}<a href="/search/${encodedGroup}" class="hashtag">${group2}</a>`
+        }
+    )
+    return content
+})
 
 function openEditModal() {
     emit('editClick', props.post)
@@ -64,6 +68,8 @@ function sendReaction() {
         </div>
         <div class="mb-3">
             <ReadMoreReadLess :content="postBody"/>
+            <UrlPreview :preview="post.preview" :url="post.preview_url"/>
+
         </div>
         <div :class="[
             post.attachments.length === 1 ? 'grid-cols-1 ' : 'grid-cols-2'
