@@ -17,7 +17,7 @@ class Group extends Model
     use HasSlug;
     use SoftDeletes;
 
-    protected $fillable = ['name', 'user_id', 'auto_approval', 'about', 'cover_path', 'thumbnail_path',];
+    protected $fillable = ['name', 'user_id', 'auto_approval', 'about', 'cover_path', 'thumbnail_path', 'pinned_post_id'];
 
 
     public function getSlugOptions(): SlugOptions

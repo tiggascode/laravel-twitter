@@ -17,9 +17,9 @@ class Post extends Model
         'preview' => 'json'
     ];
 
-    public static function postsForTimeline($userId)
+    public static function postsForTimeline($userId, $getLatest = true)
     {
-        return Post::query()
+        $query = Post::query()
             ->withCount('reactions')
             ->with([
                 'comments' => function ($query) {
@@ -27,8 +27,13 @@ class Post extends Model
                 },
                 'reactions' => function ($query) use ($userId) {
                     $query->where('user_id', $userId);
-                }])
-            ->latest();
+                }]);
+
+        if ($getLatest) {
+            $query->latest();
+        }
+
+        return $query;
     }
 
     public function user()
