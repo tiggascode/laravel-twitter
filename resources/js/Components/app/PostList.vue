@@ -67,6 +67,7 @@ function loadMore() {
         })
 }
 
+
 onMounted(() => {
     const observer = new IntersectionObserver(
         (entries) => entries.forEach(entry => entry.isIntersecting && loadMore()), {

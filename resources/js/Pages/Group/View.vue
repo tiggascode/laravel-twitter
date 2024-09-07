@@ -192,7 +192,7 @@ function deleteUser(user) {
             </div>
 
 
-            <div class="group relative bg-white">
+            <div class="group relative bg-white dark:bg-slate-950 dark:text-gray-100">
                 <img :src="coverImageSrc || group.cover_url || '/img/No_image.png'"
                      class="w-full h-[200px] object-cover">
                 <div v-if="isCurrentUserAdmin" class="absolute top-2 right-2 ">
@@ -295,7 +295,7 @@ function deleteUser(user) {
             </div>
             <div class="border-t   ">
                 <TabGroup>
-                    <TabList class="  flex bg-white ">
+                    <TabList class="  flex bg-white dark:bg-slate-950 dark:text-gray-100">
 
                         <Tab v-slot="{ selected }" as="template">
                             <TabItem :selected="selected" text="Posts"/>

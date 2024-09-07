@@ -139,7 +139,7 @@ function followUser() {
             >
                 {{ errors.cover }}
             </div>
-            <div class="group relative bg-white ">
+            <div class="group relative bg-white dark:bg-slate-950 dark:text-gray-100 ">
                 <img :src="coverImageSrc || user.cover_url || '/img/default_cover.jpg'"
                      class="w-full h-[200px] object-cover">
                 <div class="absolute top-2 right-2 ">
@@ -236,7 +236,7 @@ function followUser() {
 
             <div class="border-t ">
                 <TabGroup>
-                    <TabList class="  flex bg-white ">
+                    <TabList class="  flex bg-white  dark:bg-slate-950 dark:text-gray-100 ">
 
                         <Tab v-slot="{ selected }" as="template">
                             <TabItem :selected="selected" text="Posts"/>
@@ -248,7 +248,7 @@ function followUser() {
                             <TabItem :selected="selected" text="Followings"/>
                         </Tab>
                         <Tab v-slot="{ selected }" as="template">
-                            <TabItem :selected="selected" text="Photoss"/>
+                            <TabItem :selected="selected" text="Photos"/>
                         </Tab>
                         <Tab v-if="isMyProfile" v-slot="{ selected }" as="template">
                             <TabItem :selected="selected" text="My Profile"/>
@@ -265,7 +265,7 @@ function followUser() {
                                 You dont have permission to view these posts
                             </div>
                         </TabPanel>
-                        <TabPanel class="bg-white p-3 shadow">
+                        <TabPanel class="bg-white p-3  dark:bg-slate-800 shadow">
                             <div class="mb-3">
                                 <TextInput :model-value="searchFollowersKeyword"
                                            class="w-full" placeholder="Type To search "/>
@@ -281,7 +281,7 @@ function followUser() {
                                 User does not have followers
                             </div>
                         </TabPanel>
-                        <TabPanel class="bg-white p-3 shadow">
+                        <TabPanel class="bg-white p-3  dark:bg-slate-800 shadow">
                             <div class="mb-3">
                                 <TextInput :model-value="searchFollowingsKeyword"
                                            class="w-full" placeholder="Type To search "/>
@@ -293,11 +293,11 @@ function followUser() {
                                               :user="user"
                                               class="shadow rounded-lg"/>
                             </div>
-                            <div v-else class="text-center py-8 text-white">
+                            <div v-else class="text-center  dark:bg-slate-800 py-8 text-white">
                                 The user is not following to anybody
                             </div>
                         </TabPanel>
-                        <TabPanel class="bg-white p-3 shadow">
+                        <TabPanel class="bg-white p-3  dark:bg-slate-800 shadow">
                             <TabPhotos :photos="photos"/>
                         </TabPanel>
                         <TabPanel v-if="isMyProfile">

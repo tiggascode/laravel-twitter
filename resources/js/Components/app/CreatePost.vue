@@ -29,9 +29,9 @@ defineProps({
 </script>
 
 <template>
-    <div class="p-4  bg-white rounded-lg  border mb-3">
+    <div class="p-4 dark:bg-slate-950 dark:border-slate-900  bg-white rounded-lg  border mb-3">
         <div
-            class="py-2 px-3 border-2 border-gray-200 text-gray-500 rounded-md  mb-3 w-full"
+            class="py-2 px-3 border-2 border-gray-200 text-gray-500 rounded-md dark:border-slate-900 dark:text-gray-100  mb-3 w-full"
             @click="showCreatePostModal">Click here to create new post
         </div>
         <PostModal v-model="showModal" :group="group" :post="newPost"/>

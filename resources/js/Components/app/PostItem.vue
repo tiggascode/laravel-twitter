@@ -93,7 +93,7 @@ function pinUnpinPost() {
 </script>
 
 <template>
-    <div class="bg-white border rounded p-4 mb-3">
+    <div class="bg-white border rounded p-4 mb-3 dark:bg-slate-950 dark:border-slate-900 dark:text-gray-100">
         <div class="flex items-center justify-between  mb-3">
             <PostUserHeader :post="post"/>
             <div class="flex items-center">
@@ -132,11 +132,11 @@ function pinUnpinPost() {
                 <button
                     :class="[
                     post.current_user_has_reaction ?
-                    'bg-sky-100 hover:bg-sky-200' :
-                    ' bg-gray-100 hover:bg-gray-200',
+                    'bg-sky-100 dark:bg-sky-900 dark:hover:bg-sky-950 hover:bg-sky-200' :
+                    ' bg-gray-100 dark:bg-slate-900 dark:hover:bg-slate-800 hover:bg-gray-200',
 
                 ]"
-                    class="text-gray-800 flex gap-1 items-center justify-center rounded-lg
+                    class="text-gray-800 dark:text-gray-100  flex gap-1 items-center justify-center rounded-lg
                 py-2 px-4 flex-1"
                     @click="sendReaction">
                     <HandThumbUpIcon class="w-5 h-5  "/>
@@ -145,8 +145,9 @@ function pinUnpinPost() {
 
                 </button>
                 <DisclosureButton
-                    class="text-gray-800 bg-gray-100 hover:bg-gray-200 flex gap-1 items-center justify-center rounded-lg
-                py-2 px-4 flex-1">
+                    class="text-gray-800 dark:bg-slate-900 dark:text-gray-100
+                     bg-gray-100 hover:bg-gray-200 dark:hover:bg-slate-800 flex gap-1 items-center justify-center rounded-lg
+                    py-2 px-4 flex-1">
                     <ChatBubbleLeftRightIcon class="w-5 h-5"/>
                     <span class="mr-2">{{ post.num_of_comments }}</span>
                     Comment
