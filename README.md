@@ -87,19 +87,4 @@ php artisan serve
 
 Open your browser and navigate to `http://localhost:8000`.
 
-### 9. Optional: Hot Module Replacement (HMR)
 
-If you want to use hot module replacement for Vue.js (live reloading), run:
-
-```bash
-npm run hot
-```
-
-## Troubleshooting
-
-- Ensure you have the correct versions of Node.js, npm, and Composer installed.
-- Check that your `.env` file is properly configured for your database and other settings.
-
-## License
-
-Specify the project's license here.
