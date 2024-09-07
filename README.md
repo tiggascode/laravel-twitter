@@ -1,16 +1,15 @@
-<p>composer install</p>
+<ul>
+    <li>composer install</li>
+    <li>cp .env.example .env or copy .env.example .env</li>
+    <li>php artisan key:generate</li>
+    <li>php artisan migrate</li>
+</ul>
 
-<p>cp .env.example .env</p> or <p>copy .env.example .env</p>
+ <ul>
+    <li>npm install</li>
+    <li>npm run dev or npm run build</li>
 
-<p>php artisan key:generate</p>
-
-<p>php artisan migrate</p>
-
-<p>npm install</p>
-
-<p>npm run dev</p>
-
-<p>npm run build</p>
+</ul>
 
 <a href="https://mailpit.axllent.org/docs/install/">Install Mailpit</a>
 
