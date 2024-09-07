@@ -8,7 +8,6 @@ import {CameraIcon, CheckCircleIcon, XMarkIcon} from '@heroicons/vue/24/solid'
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import InviteUserModal from "@/Pages/Group/InviteUserModal.vue";
 import UserListItem from "@/Components/app/UserListItem.vue";
-import TextInput from "@/Components/TextInput.vue";
 import GroupForm from "@/Components/app/GroupForm.vue";
 import PostList from "@/Components/app/PostList.vue";
 import CreatePost from "@/Components/app/CreatePost.vue";
@@ -329,10 +328,10 @@ function deleteUser(user) {
                             </div>
                         </TabPanel>
                         <TabPanel v-if="isJoinedToGroup">
-                            <div class="mb-3">
-                                <TextInput :model-value="searchKeyword"
-                                           class="w-full" placeholder="Type To search "/>
-                            </div>
+                            <!--                            <div class="mb-3">-->
+                            <!--                                <TextInput :model-value="searchKeyword"-->
+                            <!--                                           class="w-full" placeholder="Type To search "/>-->
+                            <!--                            </div>-->
                             <div class="grid grid-cols-2 gap-3">
                                 <UserListItem v-for="user of users"
                                               :key="user.id"

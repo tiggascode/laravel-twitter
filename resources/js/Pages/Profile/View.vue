@@ -11,7 +11,6 @@ import DangerButton from "@/Components/DangerButton.vue";
 import PostList from "@/Components/app/PostList.vue";
 import CreatePost from "@/Components/app/CreatePost.vue";
 import UserListItem from "@/Components/app/UserListItem.vue";
-import TextInput from "@/Components/TextInput.vue";
 import TabPhotos from "@/Pages/Profile/TabPhotos.vue";
 
 const imagesForm = useForm({
@@ -142,7 +141,7 @@ function followUser() {
             <div class="group relative bg-white dark:bg-slate-950 dark:text-gray-100 ">
                 <img :src="coverImageSrc || user.cover_url || '/img/default_cover.jpg'"
                      class="w-full h-[200px] object-cover">
-                <div class="absolute top-2 right-2 ">
+                <div v-if="isMyProfile" class="absolute top-2 right-2 ">
                     <button
                         v-if="!coverImageSrc"
                         class="bg-gray-50 hover:bg-gray-100 text-gray-800
@@ -191,15 +190,16 @@ function followUser() {
                         <img :src="avatarImageSrc || user.avatar_url || '/img/default_avatar.jpg'"
                              class="w-full h-full object-cover rounded-full">
                         <button
-                            v-if="!avatarImageSrc"
+                            v-if="!avatarImageSrc && isMyProfile"
                             class="absolute left-0 top-0 right-0 bottom-0 bg-black/50 text-gray-200 rounded-full
                                 opacity-0 flex items-center justify-center group-hover/avatar:opacity-100">
-                            <CameraIcon class="w-8 h-8 "/>
-                            <input class="absolute left-0 top-0 bottom-0 right-0 opacity-0 cursor-pointer"
+                            <CameraIcon v-if="isMyProfile" class="w-8 h-8 "/>
+                            <input v-if="isMyProfile"
+                                   class="absolute left-0 top-0 bottom-0 right-0 opacity-0 cursor-pointer"
                                    type="file"
                                    @change="onAvatarChange">
                         </button>
-                        <div v-else
+                        <div v-else-if="isMyProfile"
                              class="absolute top-1/3 right-1/3  flex flex-col gap-2   ">
                             <button
                                 class="w-7 h-7 flex items-center  justify-center bg-red-500/80
@@ -258,7 +258,7 @@ function followUser() {
                     <TabPanels class="mt-2">
                         <TabPanel class="">
                             <template v-if="posts">
-                                <CreatePost/>
+                                <CreatePost v-if="isMyProfile"/>
                                 <PostList :posts="posts.data" class="flex-1"/>
                             </template>
                             <div v-else class="py-8 text-center text-white">
@@ -266,10 +266,10 @@ function followUser() {
                             </div>
                         </TabPanel>
                         <TabPanel class="bg-white p-3  dark:bg-slate-800 shadow">
-                            <div class="mb-3">
-                                <TextInput :model-value="searchFollowersKeyword"
-                                           class="w-full" placeholder="Type To search "/>
-                            </div>
+                            <!--                            <div class="mb-3">-->
+                            <!--                                <TextInput :model-value="searchFollowersKeyword"-->
+                            <!--                                           class="w-full" placeholder="Type To search "/>-->
+                            <!--                            </div>-->
                             <div v-if="followers.length" class="grid grid-cols-2 gap-3">
 
                                 <UserListItem v-for="user of followers"
@@ -282,10 +282,10 @@ function followUser() {
                             </div>
                         </TabPanel>
                         <TabPanel class="bg-white p-3  dark:bg-slate-800 shadow">
-                            <div class="mb-3">
-                                <TextInput :model-value="searchFollowingsKeyword"
-                                           class="w-full" placeholder="Type To search "/>
-                            </div>
+                            <!--                            <div class="mb-3">-->
+                            <!--                                <TextInput :model-value="searchFollowingsKeyword"-->
+                            <!--                                           class="w-full" placeholder="Type To search "/>-->
+                            <!--                            </div>-->
                             <div v-if="followings.length" class="grid grid-cols-2 gap-3">
 
                                 <UserListItem v-for="user of followings"

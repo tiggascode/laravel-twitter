@@ -1,11 +1,9 @@
 <script setup>
 
-import TextInput from "@/Components/TextInput.vue";
 import GroupItem from "@/Components/app/GroupItem.vue";
 import {ref} from "vue";
 import GroupModal from "@/Components/app/GroupModal.vue";
 
-const searchKeyword = ref('');
 const showNewGroupModal = ref(false);
 
 const props = defineProps({
@@ -18,16 +16,13 @@ function onGroupCreate(group) {
 </script>
 
 <template>
-    <div class="flex gap-2 mt-4">
-        <TextInput :model-value="searchKeyword" class="w-full " placeholder="Type To search "/>
-        <button
-            class="text-sm bg-indigo-500 hover:bg-indigo-600 text-white rounded py-1 px-2 w-[120px]"
-            @click="showNewGroupModal = true">
-            new group
-        </button>
-    </div>
+    <button
+        class="text-sm mt-4 bg-indigo-500 hover:bg-indigo-600 text-white rounded py-1 px-2"
+        @click="showNewGroupModal = true">
+        new group
+    </button>
     <div class="mt-3 h-[200px] lg:flex-1 overflow-auto">
-        <div v-if="false" class="text-gray-400     text-center p-3">
+        <div v-if="false" class="text-gray-400 text-center p-3">
             You are not joined to any groups
         </div>
         <div v-else>
