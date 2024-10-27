@@ -1,5 +1,5 @@
 
-# Project Title
+# Twitter Clone
 
 Brief description of your project.
 
